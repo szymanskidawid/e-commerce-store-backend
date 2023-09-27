@@ -1,0 +1,39 @@
+{
+  "products": [
+    {
+      "id": "id1",
+      "name": "Butter",
+      "category": "Food",
+      "price": 1.99,
+      "stock": 4
+    },
+    {
+      "id": "id2",
+      "name": "Milk",
+      "category": "Food",
+      "price": 2.49,
+      "stock": 9
+    },
+    {
+      "id": "id3",
+      "name": "TV",
+      "category": "Electronics",
+      "price": 1500,
+      "stock": 2
+    },
+    {
+      "id": "id4",
+      "name": "PS5",
+      "category": "Electronics",
+      "price": 2000,
+      "stock": 0
+    },
+    {
+      "id": "id5",
+      "name": "Frying Pan",
+      "category": "Kitchen",
+      "price": 49.99,
+      "stock": 4
+    }
+  ]
+}
