@@ -9,6 +9,8 @@ app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', '*');
+  res.setHeader('Access-Control-Allow-Headers', '*');
   next();
 });
 
@@ -28,7 +30,6 @@ app.get('/products', (req, res) => {
     try {
       result = JSON.parse(data);
       res.json(result);
-      console.log('Data from JSON file:', result);
     } catch (error) {
       console.error('Error parsing JSON:', error);
     }
@@ -36,10 +37,9 @@ app.get('/products', (req, res) => {
 });
 
 // Endpoint to add new data
-app.post('/products', (req, res) => {
-  const newItem = req.body;
-  data.push(newItem);
-  res.status(201).json(newItem);
+app.put('/products', (req, res) => {
+  console.log({req});
+  console.log({res});
 });
 
 // Start the server
