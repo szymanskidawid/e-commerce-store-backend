@@ -1,48 +1,49 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const fs = require('fs');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require("dotenv").config();
 
 const app = express();
+
+app.use(express.json());
+
+app.use(cors({
+  origin: "*",
+  methods: "*",
+  allowedHeaders: "*"
+}));
+
+mongoose.connect(process.env.MONGODB, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  console.log("connected to MongoDB");
+})
+.catch((error) => {
+  console.log("error connecting to MongoDB", error);
+})
+
+const productSchema = new mongoose.Schema({
+  id: String,
+  name: String,
+  category: String,
+  price: Number,
+  stock: Number
+})
+
+const Products = mongoose.model("products", productSchema);
+
+app.get('/', async (req, res) => {
+  const data = await Products.find({});
+
+  console.log(data);
+
+  res.json(data);
+});
+
 const PORT = process.env.PORT || 4000;
 
-app.use(bodyParser.json());
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', '*');
-  res.setHeader('Access-Control-Allow-Headers', '*');
-  next();
-});
-
-// Sample data (in-memory database)
-let result = [];
-
-// Endpoint to get all data
-app.get('/products', (req, res) => {
-  const fileName = 'db.json';
-
-  fs.readFile(fileName, 'utf8', (err, data) => {
-    if (err) {
-      console.error(`Error reading file: ${fileName}`);
-      return;
-    }
-  
-    try {
-      result = JSON.parse(data);
-      res.json(result);
-    } catch (error) {
-      console.error('Error parsing JSON:', error);
-    }
-  });
-});
-
-// Endpoint to add new data
-app.put('/products', (req, res) => {
-  console.log({req});
-  console.log({res});
-});
-
-// Start the server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
