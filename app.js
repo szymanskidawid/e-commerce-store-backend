@@ -25,7 +25,7 @@ mongoose.connect(process.env.MONGODB, {
 })
 
 const productSchema = new mongoose.Schema({
-  id: String,
+  _id: String,
   name: String,
   category: String,
   price: Number,
@@ -40,6 +40,21 @@ app.get('/', async (req, res) => {
   console.log(data);
 
   res.json(data);
+});
+
+app.put('/:productId', async (req, res) => {
+  try {
+    const productId = req.params.productId;
+
+    const product = await Products.findByIdAndUpdate({_id: productId}, {stock: req.body.stock});
+
+    res.json({ message: "product modified successfully" });
+  }
+
+  catch(err) {
+    console.log(err);
+    res.status(500).json({ error: "something went wrong"});
+  }
 });
 
 const PORT = process.env.PORT || 4000;
