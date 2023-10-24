@@ -42,6 +42,19 @@ app.get('/', async (req, res) => {
   res.json(data);
 });
 
+app.put('/restock', async (req, res) => {
+  try {
+    await Products.updateMany({}, { stock: 10 });
+
+    res.json({ message: "stock refill successfull" });
+  }
+
+  catch(err) {
+    console.log(err);
+    res.status(500).json({ error: "stock refill unsuccessful"});
+  }
+})
+
 app.put('/:productId', async (req, res) => {
   try {
     const productId = req.params.productId;
@@ -53,7 +66,7 @@ app.put('/:productId', async (req, res) => {
 
   catch(err) {
     console.log(err);
-    res.status(500).json({ error: "something went wrong"});
+    res.status(500).json({ error: "stock reduction unsuccessful"});
   }
 });
 
