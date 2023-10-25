@@ -37,8 +37,6 @@ const Products = mongoose.model("products", productSchema);
 app.get('/', async (req, res) => {
   const data = await Products.find({});
 
-  console.log(data);
-
   res.json(data);
 });
 
@@ -46,7 +44,9 @@ app.put('/restock', async (req, res) => {
   try {
     await Products.updateMany({}, { stock: 10 });
 
-    res.json({ message: "stock refill successfull" });
+    const allProducts = await Products.find({});
+
+    res.json(allProducts);
   }
 
   catch(err) {
